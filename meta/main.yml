@@ -1,0 +1,19 @@
+
+---
+dependencies: []
+
+galaxy_info:
+  author: tuannvm
+  description: create iam user
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.9
+  platforms:
+    - name: macOS
+      versions:
+      - all
+    - name: GenericLinux
+      versions:
+      - all
+  galaxy_tags:
+    - aws
+    - iam

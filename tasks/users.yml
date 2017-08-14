@@ -1,0 +1,33 @@
+---
+# TODO: dashboard enabled?, access key create?, password? 2FA?
+- name: Add new users
+  iam:
+    name: "{{ item.name }}"
+    state: "{{ ((item.state == None) | ternary('present', item.state)) \
+    if item.state is defined else 'present' }}"
+    iam_type: "{{ ((item.iam_type == None) | ternary('user', item.iam_type)) \
+    if item.iam_type is defined else 'user' }}"
+    access_key_state: "{{ ((item.access_key_state == None) | ternary('create', item.access_key_state)) \
+    if item.access_key_state is defined else 'create' }}"
+    groups: "{{ ((item.groups == None) | ternary('[]', item.groups)) \
+    if item.groups is defined else '[]' }}"
+    # password length = 10 by default
+    password: "{{ lookup('password', 'credentials/' + item.name + '/password.txt length=10') }}"
+    # only update password upon creation
+    update_password: on_create
+  with_items:
+    - "{{ users }}"
+
+- name: Send notification message via Slack
+  slack:
+    channel: "@{{ item.item.slack_name }}"
+    token: "{{ slack_token }}"
+    msg: "Your AWS account has been created! with username: {{ item.invocation.module_args.name }}, \
+    password: {{ lookup('password', 'credentials/' + item.invocation.module_args.name + '/password.txt length=10') }}, \
+    access_key: {{ item.user_meta.access_keys[0].access_key_id if item.user_meta is defined else 'none' }} \
+    and secret_key: {{ item.user_meta.access_keys[0].secret_access_key if item.user_meta is defined else 'none' }}"
+    username: DevOps
+  delegate_to: localhost
+  with_items:
+  - "{{ user.results }}"
+  when: slack_enabled

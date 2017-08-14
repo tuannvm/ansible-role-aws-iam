@@ -1,0 +1,20 @@
+---
+# defaults file for ansible-role-aws-iam, dashboard enabled?, access key create?, password? 2FA?
+
+slack_enabled: true
+slack_token: <slack-token>
+users:
+  - name: test-user7
+    access_key_state: create
+    groups:
+    iam_type:
+    password:
+    state:
+    slack_name: random-user
+  # - name: test-user8
+  #  access_key_state: create
+  #  groups: [frontend]
+  #  iam_type:
+  #  password:
+  #  state:
+  #  slack_name: random-admin
