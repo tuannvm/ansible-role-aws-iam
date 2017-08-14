@@ -11,6 +11,9 @@ galaxy_info:
     - name: macOS
       versions:
       - all
+    - name: MacOSX
+      versions:
+      - all
     - name: GenericLinux
       versions:
       - all
