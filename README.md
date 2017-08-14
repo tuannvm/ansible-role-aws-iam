@@ -82,6 +82,9 @@ users:
   - name: test-user2
 ```
 
+## TODO
+- Add email support with full html body
+
 ## License
 
 MIT / BSD
